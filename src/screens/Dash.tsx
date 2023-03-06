@@ -1,9 +1,14 @@
-import { Center, Text } from "native-base";
+import { Center, Text, VStack } from "native-base";
+import { Dashboard } from "../components/Dashboard";
+import { ScreenHeader } from "../components/ScreenHeader";
 
 export function Dash(){
     return(
-        <Center flex={1}>
-            <Text>Dash</Text>
-        </Center>
+        <VStack flex={1}>
+            <ScreenHeader title="Dashboard" />
+            <VStack px={5}>
+            <Dashboard />
+            </VStack>
+        </VStack>
     )
 }

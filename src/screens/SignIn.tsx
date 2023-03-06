@@ -4,12 +4,33 @@ import LogoSVG from "../assets/logo.svg";
 import { Button } from "../components/Button";
 import { Input } from "../components/Input";
 import { AuthNavigatorRoutesProps } from "../routes/auth.routes";
+import { useForm, Controller } from 'react-hook-form';
+import * as yup from "yup";
+import { yupResolver } from '@hookform/resolvers/yup';
+
+type FormDataProps = {
+  email: string;
+  password: string;
+}
+
+const signInSchema = yup.object({
+  email: yup.string().required('Informe o email').email('Email inválido'),
+  password: yup.string().required('Informe a senha').min(6, 'A senha deve ter pelo menos 6 dígitos')
+})
 
 export function SignIn() {
   const navigation = useNavigation<AuthNavigatorRoutesProps>()
 
   function handleNewAccount(){
     navigation.navigate('signUp');
+  }
+
+  const {control, handleSubmit, formState:{errors}} = useForm<FormDataProps>({
+    resolver: yupResolver(signInSchema)
+  });
+
+  function handleSignIn(data: FormDataProps) {
+    console.log(data);
   }
 
   return (
@@ -27,11 +48,37 @@ export function SignIn() {
             Acesse sua conta
           </Heading>
 
-          <Input placeholder="Email" keyboardType="email-address" />
+          <Controller 
+            control={control}
+            name="email"
+            render={({field: {onChange, value}}) => (
+              <Input 
+              onChangeText={onChange}
+              placeholder="Email"
+              keyboardType="email-address"
+              value={value}
+              errorMessage={errors.email?.message}
+              />
+            )}
+          />
 
-          <Input placeholder="Senha" secureTextEntry />
 
-          <Button title="Acessar" />
+          <Controller 
+            control={control}
+            name="password"
+            render={({field: {onChange, value}}) => (
+              <Input 
+              onChangeText={onChange}
+              placeholder="Senha"
+              secureTextEntry
+              value={value}
+              errorMessage={errors.password?.message}
+              />
+            )}
+          />
+
+
+          <Button title="Acessar" onPress={handleSubmit(handleSignIn)}/>
         </Center>
 
         <Center mt={24}>
