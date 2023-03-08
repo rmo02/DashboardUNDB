@@ -1,9 +1,12 @@
 import {
   Box,
   Center,
+  CheckIcon,
   Divider,
   FlatList,
+  FormControl,
   Heading,
+  Select,
   Text,
   VStack,
 } from "native-base";
@@ -14,11 +17,11 @@ import { CardNews } from "../components/CardNews";
 import { NewsDTO } from "../dtos/NewsDTO";
 
 export function News() {
-  const [news, setNews] = useState<NewsDTO>([]);
+  const [news, setNews] = useState<NewsDTO[]>([]);
 
   async function fetchNew() {
     try {
-      const response = await api.get("/noticias/?qtd=10");
+      const response = await api.get("v3/noticias/?qtd=10");
       setNews(response.data["items"]);
     } catch (error) {
       console.log(error);
@@ -34,30 +37,19 @@ export function News() {
       <ScreenHeader title="Notícias" />
 
       <VStack px={3}>
-        <FlatList
-          marginBottom={105}
-          marginTop={1}
+
+
+
+        <FlatList 
           data={news}
           keyExtractor={(item) => item.id}
-          renderItem={({ item }) => (
-            <VStack
-              bg="gray.500"
-              alignItems="center"
-              p={2}
-              pr={4}
-              rounded="md"
-              mb={3}
-            >
-              <Heading fontSize="lg" color="white" fontFamily="bold">
-                {item.titulo}
-              </Heading>
-              <Text fontSize="sm" color="gray.200" numberOfLines={2}>
-                {item.introducao}
-              </Text>
-            </VStack>
+          renderItem={({item}) => (
+            <CardNews 
+            data={item}
+            />
           )}
-          showsVerticalScrollIndicator={false}
         />
+
       </VStack>
     </VStack>
   );

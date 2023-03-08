@@ -1,7 +1,7 @@
 import { VStack } from "native-base";
 import { Dimensions } from "react-native";
-import { LineChart } from "react-native-chart-kit";
-import { VictoryChart, VictoryPie, VictoryTheme } from "victory-native";
+import { LineChart, StackedBarChart } from "react-native-chart-kit";
+
 
 export function Dashboard() {
   return (
@@ -49,6 +49,7 @@ export function Dashboard() {
           borderRadius: 16,
         }}
       />
+
     </VStack>
   );
 }

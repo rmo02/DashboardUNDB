@@ -1,6 +1,6 @@
 export type NewsDTO = {
-    id: number;
+    id: string;
     titulo:string;
     introducao:string;
-    data_publicacao:number;
+    data_publicacao:string;
 }
